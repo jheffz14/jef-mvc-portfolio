@@ -1,0 +1,209 @@
+@model PortfolioViewModel
+
+<!-- ══ HERO ═════════════════════════════════════════════════════════════════ -->
+<section id="home" class="hero">
+    <div class="hero-dots" aria-hidden="true">
+        @for (int i = 0; i < 80; i++)
+        {
+            <div class="dot"></div>
+        }
+    </div>
+    <div class="hero-content">
+        <p class="hero-pre">Hello, World! 👋</p>
+        <h1 class="hero-name">I'm <span class="accent">Jef</span></h1>
+        <h2 class="hero-role"><span class="typewriter">Web Developer</span></h2>
+        <p class="hero-sub">
+            I build fast, clean, and modern web experiences —
+            from pixel-perfect UIs to full-stack ASP.NET applications.
+        </p>
+        <div class="hero-btns">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#contact" class="btn btn-outline">Contact Me</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-num">@Model.Projects.Count+</span>
+                <span class="stat-lbl">Projects</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-num">@Model.Skills.Count+</span>
+                <span class="stat-lbl">Skills</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-num">∞</span>
+                <span class="stat-lbl">Curiosity</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+        <div class="code-card">
+            <div class="code-top">
+                <span class="dot-r"></span>
+                <span class="dot-y"></span>
+                <span class="dot-g"></span>
+                <span class="code-filename">HomeController.cs</span>
+            </div>
+<pre class="code-body">public class HomeController
+    : Controller
+{
+  public IActionResult Index()
+  {
+    var vm = new Portfolio
+    {
+      Developer = "Jef",
+      Available = true
+    };
+    return View(vm);
+  }
+}</pre>
+        </div>
+    </div>
+</section>
+
+<!-- ══ ABOUT ════════════════════════════════════════════════════════════════ -->
+<section id="about" class="about section reveal">
+    <div class="section-label">01 // About Me</div>
+    <div class="about-inner">
+        <div class="about-avatar">
+            <div class="avatar-ring">
+                <div class="avatar-initials">JEF</div>
+            </div>
+            <div class="avatar-badge">
+                <span class="badge-dot"></span> Available for work
+            </div>
+        </div>
+        <div class="about-text">
+            <h2 class="section-title">Who am I?</h2>
+            <p>
+                I'm <strong>Jef</strong>, a passionate Web Developer who loves turning ideas
+                into interactive digital experiences. I focus on writing clean, maintainable
+                code and building applications that feel great to use.
+            </p>
+            <p>
+                Currently diving deep into <span class="accent">ASP.NET Core MVC</span>,
+                learning <span class="accent">Git workflows</span>, and building
+                projects that push my skills every single day.
+            </p>
+            <div class="about-tags">
+                <span class="tag">Problem Solver</span>
+                <span class="tag">Fast Learner</span>
+                <span class="tag">Open Source Fan</span>
+                <span class="tag">UI Enthusiast</span>
+            </div>
+            <a href="#contact" class="btn btn-primary" style="margin-top:1.5rem;display:inline-block">
+                Let's Connect →
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SKILLS ═══════════════════════════════════════════════════════════════ -->
+<section id="skills" class="skills section reveal">
+    <div class="section-label">02 // Skills</div>
+    <h2 class="section-title">My Toolkit</h2>
+
+    <!-- Filter Buttons -->
+    <div class="filter-tabs">
+        <button class="filter-btn active" onclick="filterSkills('All', this)">All</button>
+        @foreach (var cat in Model.Skills.Select(s => s.Category).Distinct())
+        {
+            <button class="filter-btn" onclick="filterSkills('@cat', this)">@cat</button>
+        }
+    </div>
+
+    <!-- Skills Grid -->
+    <div class="skills-grid" id="skillsGrid">
+        @foreach (var skill in Model.Skills)
+        {
+            <div class="skill-item" data-category="@skill.Category">
+                <div class="skill-top">
+                    <span class="skill-name">@skill.Name</span>
+                    <span class="skill-pct">@skill.Level%</span>
+                </div>
+                <div class="skill-track">
+                    <div class="skill-fill" data-level="@skill.Level" style="width:0%"></div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- ══ PROJECTS ══════════════════════════════════════════════════════════════ -->
+<section id="projects" class="projects section reveal">
+    <div class="section-label">03 // Projects</div>
+    <h2 class="section-title">What I've Built</h2>
+    <div class="projects-grid">
+        @foreach (var project in Model.Projects)
+        {
+            <div class="project-card reveal" style="--card-accent: @project.AccentColor">
+                <div class="card-top-bar" style="background: @project.AccentColor"></div>
+                <div class="card-body">
+                    <h3 class="card-title">@project.Title</h3>
+                    <p class="card-desc">@project.Description</p>
+                    <div class="card-tags">
+                        @foreach (var tag in project.Tags)
+                        {
+                            <span class="card-tag" style="color:@project.AccentColor; border-color:@project.AccentColor">
+                                @tag
+                            </span>
+                        }
+                    </div>
+                    <a href="@project.Link" class="card-link">View Project <span>→</span></a>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- ══ CONTACT ═══════════════════════════════════════════════════════════════ -->
+<section id="contact" class="contact section reveal">
+    <div class="section-label">04 // Contact</div>
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="contact-sub">Have a project in mind or just want to say hi? My inbox is always open.</p>
+
+    <div class="contact-inner">
+        <!-- Info -->
+        <div class="contact-info">
+            <div class="info-item">
+                <span class="info-icon">📍</span>
+                <div><strong>Location</strong><br />Philippines</div>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">💼</span>
+                <div><strong>Status</strong><br />Open to opportunities</div>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">🚀</span>
+                <div><strong>GitHub</strong><br />github.com/jef</div>
+            </div>
+        </div>
+
+        <!-- Contact Form — posts to HomeController.SendMessage -->
+        <form asp-action="SendMessage" asp-controller="Home" method="post" class="contact-form">
+            @Html.AntiForgeryToken()
+
+            @if (Model.MessageSent)
+            {
+                <div class="form-success">✅ Message sent! I'll get back to you soon.</div>
+            }
+
+            <div class="form-row">
+                <div>
+                    <input asp-for="ContactForm.Name" placeholder="Your Name" />
+                    <span asp-validation-for="ContactForm.Name" class="field-error"></span>
+                </div>
+                <div>
+                    <input asp-for="ContactForm.Email" type="email" placeholder="Your Email" />
+                    <span asp-validation-for="ContactForm.Email" class="field-error"></span>
+                </div>
+            </div>
+
+            <textarea asp-for="ContactForm.Message" rows="5" placeholder="Your Message..."></textarea>
+            <span asp-validation-for="ContactForm.Message" class="field-error"></span>
+
+            <button type="submit" class="btn btn-primary">Send Message ✉️</button>
+        </form>
+    </div>
+</section>

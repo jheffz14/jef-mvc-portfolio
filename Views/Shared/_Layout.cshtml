@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jef | Web Developer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Our custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <span class="bracket">&lt;</span>Jef<span class="bracket">/&gt;</span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">home</a></li>
+            <li><a href="#about">about</a></li>
+            <li><a href="#skills">skills</a></li>
+            <li><a href="#projects">projects</a></li>
+            <li><a href="#contact">contact</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- PAGE CONTENT (filled by each View) -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p><span class="accent">&lt;Jef /&gt;</span> — Built with ASP.NET Core MVC 💻</p>
+        <p class="footer-sub">© @DateTime.Now.Year All rights reserved.</p>
+    </footer>
+
+    <!-- Our custom JS -->
+    <script src="~/js/site.js"></script>
+</body>
+</html>
