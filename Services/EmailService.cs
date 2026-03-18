@@ -12,10 +12,17 @@ namespace JefPortfolio.Services
             _config = config;
         }
 
+
+
         public async Task SendContactEmailAsync(string senderName, string senderEmail, string message)
         {
             var apiKey = _config["EmailSettings:SendGridApiKey"] ?? "";
             var receiverEmail = _config["EmailSettings:ReceiverEmail"] ?? "";
+
+            // ✅ Add this line — shows in Railway logs
+            Console.WriteLine($"API Key starts with: {apiKey.Substring(0, Math.Min(10, apiKey.Length))}");
+            Console.WriteLine($"Receiver: {receiverEmail}");
+
 
             var client = new SendGridClient(apiKey);
 

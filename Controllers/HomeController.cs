@@ -1,17 +1,20 @@
-using Microsoft.AspNetCore.Mvc;
-using JefPortfolio.Models;
 using JefPortfolio.Helpers;
+using JefPortfolio.Models;
 using JefPortfolio.Services;
+using Microsoft.AspNetCore.Mvc;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace JefPortfolio.Controllers
 {
     public class HomeController : Controller
     {
         private readonly EmailService _emailService;
+   
 
         public HomeController(EmailService emailService)
         {
             _emailService = emailService;
+        
         }
 
         // ── GET: / or /Home/Index ─────────────────────────────────────────
@@ -67,24 +70,22 @@ namespace JefPortfolio.Controllers
             return View("Index", vm);
         }
 
-
-        //// TEMPORARY - just for testing email
-        //public async Task<IActionResult> TestEmail()
-        //{
-        //    try
-        //    {
-        //        await _emailService.SendContactEmailAsync(
-        //            "Test User",
-        //            "test@test.com",
-        //            "This is a test message"
-        //        );
-        //        return Content("✅ Email sent successfully! Check your inbox.");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Content($"❌ Error: {ex.Message} \n\n Details: {ex.ToString()}");
-        //    }
-        //}
+        public async Task<IActionResult> TestEmail()
+        {
+            try
+            {
+                await _emailService.SendContactEmailAsync(
+                    "Test User",
+                    "test@test.com",
+                    "This is a test message from Railway!"
+                );
+                return Content("✅ Email sent successfully! Check your inbox and spam folder.");
+            }
+            catch (Exception ex)
+            {
+                return Content($"❌ Error: {ex.Message}");
+            }
+        }
 
     }
 }
