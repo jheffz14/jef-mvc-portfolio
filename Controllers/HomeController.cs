@@ -45,31 +45,33 @@ namespace JefPortfolio.Controllers
 
             if (!ModelState.IsValid)
             {
+                // Show what errors exist
+                foreach (var error in ModelState.Values
+                    .SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Validation Error: {error.ErrorMessage}");
+                }
                 return View("Index", vm);
             }
 
             try
             {
-                // Send the email
                 await _emailService.SendContactEmailAsync(
                     form.Name,
                     form.Email,
                     form.Message
                 );
-
                 vm.MessageSent = true;
-                vm.ContactForm = new ContactForm(); // Clear form
+                vm.ContactForm = new ContactForm();
             }
             catch (Exception ex)
             {
-                // If email fails, show
-                ModelState.AddModelError("", $"Error: {ex.Message}");
-                //ModelState.AddModelError("", "Failed to send message. Please try again.");
+                Console.WriteLine($"EMAIL ERROR: {ex.Message}");
+                ModelState.AddModelError("", $"Failed to send: {ex.Message}");
             }
 
             return View("Index", vm);
         }
-
         public async Task<IActionResult> TestEmail()
         {
             try
