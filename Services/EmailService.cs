@@ -1,6 +1,5 @@
-﻿using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
+﻿using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace JefPortfolio.Services
 {
@@ -15,49 +14,33 @@ namespace JefPortfolio.Services
 
         public async Task SendContactEmailAsync(string senderName, string senderEmail, string message)
         {
-            // Read settings safely
-            var smtpHost = _config["EmailSettings:SmtpHost"] ?? "smtp.gmail.com";
-            var smtpPort = _config["EmailSettings:SmtpPort"] ?? "465";
-            var senderAcc = _config["EmailSettings:SenderEmail"] ?? "";
-            var password = _config["EmailSettings:SenderPassword"] ?? "";
-            var receiverAcc = _config["EmailSettings:ReceiverEmail"] ?? "";
+            var apiKey = _config["EmailSettings:SendGridApiKey"] ?? "";
+            var receiverEmail = _config["EmailSettings:ReceiverEmail"] ?? "";
 
-            var email = new MimeMessage();
+            var client = new SendGridClient(apiKey);
 
-            // Your Gmail sends it
-            email.From.Add(new MailboxAddress("Portfolio Contact", senderAcc));
+            var from = new EmailAddress("johnspeak153@gmail.com", "Portfolio Contact");
+            var to = new EmailAddress(receiverEmail, "Jef");
+            var subject = $"New Portfolio Message from {senderName}";
+            var body = $@"
+                <h2 style='color:#00c49f'>New message from your portfolio!</h2>
+                <p><strong>From:</strong> {senderName}</p>
+                <p><strong>Their Email:</strong> {senderEmail}</p>
+                <p><strong>Message:</strong></p>
+                <p>{message}</p>
+                <hr/>
+                <p>Click Reply to respond directly to {senderName}.</p>
+            ";
 
-            // You receive it
-            email.To.Add(new MailboxAddress("Jef", receiverAcc));
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", body);
 
-            // When you click Reply — goes back to the viewer
-            email.ReplyTo.Add(new MailboxAddress(senderName, senderEmail));
+            // Reply goes directly to the viewer
+            msg.SetReplyTo(new EmailAddress(senderEmail, senderName));
 
-            email.Subject = $"Portfolio Message from {senderName}";
+            var response = await client.SendEmailAsync(msg);
 
-            email.Body = new TextPart("html")
-            {
-                Text = $@"
-                    <h2>New message from your portfolio!</h2>
-                    <p><strong>From:</strong> {senderName}</p>
-                    <p><strong>Their Email:</strong> {senderEmail}</p>
-                    <p><strong>Message:</strong></p>
-                    <p>{message}</p>
-                    <hr/>
-                    <p>Click Reply to respond directly to {senderName}.</p>
-                "
-            };
-
-            // Send with 10 second timeout
-            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-            using var smtp = new SmtpClient();
-
-            await smtp.ConnectAsync(smtpHost, int.Parse(smtpPort),
-                SecureSocketOptions.SslOnConnect, cts.Token);
-
-            await smtp.AuthenticateAsync(senderAcc, password, cts.Token);
-            await smtp.SendAsync(email, cts.Token);
-            await smtp.DisconnectAsync(true, cts.Token);
+            // Log the result
+            Console.WriteLine($"SendGrid Status: {response.StatusCode}");
         }
     }
 }
