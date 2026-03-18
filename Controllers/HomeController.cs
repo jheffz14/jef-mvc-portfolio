@@ -68,23 +68,23 @@ namespace JefPortfolio.Controllers
         }
 
 
-        // TEMPORARY - just for testing email
-        public async Task<IActionResult> TestEmail()
-        {
-            try
-            {
-                await _emailService.SendContactEmailAsync(
-                    "Test User",
-                    "test@test.com",
-                    "This is a test message"
-                );
-                return Content("✅ Email sent successfully! Check your inbox.");
-            }
-            catch (Exception ex)
-            {
-                return Content($"❌ Error: {ex.Message} \n\n Details: {ex.ToString()}");
-            }
-        }
+        //// TEMPORARY - just for testing email
+        //public async Task<IActionResult> TestEmail()
+        //{
+        //    try
+        //    {
+        //        await _emailService.SendContactEmailAsync(
+        //            "Test User",
+        //            "test@test.com",
+        //            "This is a test message"
+        //        );
+        //        return Content("✅ Email sent successfully! Check your inbox.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Content($"❌ Error: {ex.Message} \n\n Details: {ex.ToString()}");
+        //    }
+        //}
 
     }
 }
