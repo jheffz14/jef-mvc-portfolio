@@ -250,3 +250,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { passive: true });
 
 })();
+
+
+
+// After page loads, if message was sent, scroll to contact section
+window.addEventListener('load', function () {
+    const successMsg = document.querySelector('.form-success');
+    if (successMsg) {
+        successMsg.scrollIntoView({ behavior: 'smooth' });
+    }
+});
+
+// Auto hide success message after 5 seconds
+const successMsg = document.querySelector('.form-success');
+if (successMsg) {
+    setTimeout(() => {
+        successMsg.style.transition = 'opacity 1s ease';
+        successMsg.style.opacity = '0';
+        setTimeout(() => successMsg.style.display = 'none', 1000);
+    }, 5000);
+}

@@ -72,22 +72,7 @@ namespace JefPortfolio.Controllers
 
             return View("Index", vm);
         }
-        public async Task<IActionResult> TestEmail()
-        {
-            try
-            {
-                await _emailService.SendContactEmailAsync(
-                    "Test User",
-                    "test@test.com",
-                    "This is a test message from Railway!"
-                );
-                return Content("✅ Email sent successfully! Check your inbox and spam folder.");
-            }
-            catch (Exception ex)
-            {
-                return Content($"❌ Error: {ex.Message}");
-            }
-        }
+       
 
     }
 }

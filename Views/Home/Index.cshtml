@@ -196,7 +196,7 @@
         </div>
 
         <!-- Contact Form — posts to HomeController.SendMessage -->
-            <form asp-action="SendMessage" asp-controller="Home" method="post" class="contact-form">
+            <form asp-action="SendMessage" asp-controller="Home" method="post" class="contact-form" id="contactForm">
                 @Html.AntiForgeryToken()
 
                 @if (Model.MessageSent)
