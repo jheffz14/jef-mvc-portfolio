@@ -196,30 +196,30 @@
         </div>
 
         <!-- Contact Form — posts to HomeController.SendMessage -->
-        <form asp-action="SendMessage" asp-controller="Home" method="post" class="contact-form">
-            @Html.AntiForgeryToken()
+            <form asp-action="SendMessage" asp-controller="Home" method="post" class="contact-form">
+                @Html.AntiForgeryToken()
 
-            @if (Model.MessageSent)
-            {
-                <div class="form-success">✅ Message sent! I'll get back to you soon.</div>
-            }
+                @if (Model.MessageSent)
+                {
+                    <div class="form-success">✅ Message sent! I'll get back to you soon.</div>
+                }
 
-            <div class="form-row">
-                <div>
-                    <input asp-for="ContactForm.Name" placeholder="Your Name" />
-                    <span asp-validation-for="ContactForm.Name" class="field-error"></span>
+                <div class="form-row">
+                    <div>
+                        <input name="Name" placeholder="Your Name"
+                               value="@Model.ContactForm.Name" />
+                    </div>
+                    <div>
+                        <input name="Email" type="email" placeholder="Your Email"
+                               value="@Model.ContactForm.Email" />
+                    </div>
                 </div>
-                <div>
-                    <input asp-for="ContactForm.Email" type="email" placeholder="Your Email" />
-                    <span asp-validation-for="ContactForm.Email" class="field-error"></span>
-                </div>
-            </div>
 
-            <textarea asp-for="ContactForm.Message" rows="5" placeholder="Your Message..."></textarea>
-            <span asp-validation-for="ContactForm.Message" class="field-error"></span>
+                <textarea name="Message" rows="5"
+                          placeholder="Your Message...">@Model.ContactForm.Message</textarea>
 
-            <button type="submit" class="btn btn-primary">Send Message ✉️</button>
-        </form>
+                <button type="submit" class="btn btn-primary">Send Message ✉️</button>
+            </form>
     </div>
 </section>
 
