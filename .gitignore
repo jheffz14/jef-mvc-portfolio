@@ -5,3 +5,5 @@ obj/
 appsettings.Development.json
 appsettings.json
 Git_Github_Guide_Jef.docx
+appsettings.json
+appsettings.*.json
