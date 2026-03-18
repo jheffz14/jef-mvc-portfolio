@@ -1,11 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using JefPortfolio.Models;
-using JefPortfolio.Helpers; 
+using JefPortfolio.Helpers;
+using JefPortfolio.Services;
 
 namespace JefPortfolio.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly EmailService _emailService;
+
+        public HomeController(EmailService emailService)
+        {
+            _emailService = emailService;
+        }
+
         // ── GET: / or /Home/Index ─────────────────────────────────────────
         public IActionResult Index()
         {
@@ -22,26 +30,61 @@ namespace JefPortfolio.Controllers
         // Handles the contact form submission
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SendMessage(ContactForm form)
+        public async Task<IActionResult> SendMessage(ContactForm form)
         {
             var vm = new PortfolioViewModel
             {
                 Skills = Skills.GetSkills(),
                 Projects = ProjectsCreated.GetProjects(),
                 ContactForm = form,
-                MessageSent = ModelState.IsValid
+                MessageSent = false
             };
 
             if (!ModelState.IsValid)
             {
-                // If form has errors, go back to the page with errors shown
                 return View("Index", vm);
             }
 
-            // ✅ Here you would normally send an email or save to a database
-            // For now, we just show a success message
-            vm.ContactForm = new ContactForm(); // Clear the form
+            try
+            {
+                // Send the email
+                await _emailService.SendContactEmailAsync(
+                    form.Name,
+                    form.Email,
+                    form.Message
+                );
+
+                vm.MessageSent = true;
+                vm.ContactForm = new ContactForm(); // Clear form
+            }
+            catch (Exception ex)
+            {
+                // If email fails, show
+                ModelState.AddModelError("", $"Error: {ex.Message}");
+                //ModelState.AddModelError("", "Failed to send message. Please try again.");
+            }
+
             return View("Index", vm);
         }
+
+
+        // TEMPORARY - just for testing email
+        public async Task<IActionResult> TestEmail()
+        {
+            try
+            {
+                await _emailService.SendContactEmailAsync(
+                    "Test User",
+                    "test@test.com",
+                    "This is a test message"
+                );
+                return Content("✅ Email sent successfully! Check your inbox.");
+            }
+            catch (Exception ex)
+            {
+                return Content($"❌ Error: {ex.Message} \n\n Details: {ex.ToString()}");
+            }
+        }
+
     }
 }

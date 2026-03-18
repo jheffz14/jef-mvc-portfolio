@@ -1,9 +1,11 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add MVC services
+// Add MVC services here
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<JefPortfolio.Services.EmailService>();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
@@ -11,6 +13,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
