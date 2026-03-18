@@ -11,10 +11,9 @@
     <div class="hero-content">
         <p class="hero-pre">Hello, World! 👋</p>
         <h1 class="hero-name">I'm <span class="accent">Jef</span></h1>
-        <h2 class="hero-role"><span class="typewriter">Web Developer</span></h2>
+        <h2 class="hero-role"><span class="typewriter">Backend Developer</span></h2>
         <p class="hero-sub">
-            I build fast, clean, and modern web experiences —
-            from pixel-perfect UIs to full-stack ASP.NET applications.
+            I develop backend systems and ASP.NET applications.
         </p>
         <div class="hero-btns">
             <a href="#projects" class="btn btn-primary">View My Work</a>
@@ -29,12 +28,7 @@
             <div class="stat">
                 <span class="stat-num">@Model.Skills.Count+</span>
                 <span class="stat-lbl">Skills</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat">
-                <span class="stat-num">∞</span>
-                <span class="stat-lbl">Curiosity</span>
-            </div>
+            </div>  
         </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
@@ -64,7 +58,7 @@
 
 <!-- ══ ABOUT ════════════════════════════════════════════════════════════════ -->
 <section id="about" class="about section reveal">
-    <div class="section-label">01 // About Me</div>
+   @*  <div class="section-label">About Me</div> *@
     <div class="about-inner">
         <div class="about-avatar">
             <div class="avatar-ring">
@@ -77,7 +71,7 @@
         <div class="about-text">
             <h2 class="section-title">Who am I?</h2>
             <p>
-                I'm <strong>Jef</strong>, a passionate Web Developer who loves turning ideas
+                I'm <strong>Jef</strong>, a passionate Backend Developer who loves turning ideas
                 into interactive digital experiences. I focus on writing clean, maintainable
                 code and building applications that feel great to use.
             </p>
@@ -90,7 +84,6 @@
                 <span class="tag">Problem Solver</span>
                 <span class="tag">Fast Learner</span>
                 <span class="tag">Open Source Fan</span>
-                <span class="tag">UI Enthusiast</span>
             </div>
             <a href="#contact" class="btn btn-primary" style="margin-top:1.5rem;display:inline-block">
                 Let's Connect →
@@ -101,7 +94,7 @@
 
 <!-- ══ SKILLS ═══════════════════════════════════════════════════════════════ -->
 <section id="skills" class="skills section reveal">
-    <div class="section-label">02 // Skills</div>
+   @*  <div class="section-label">Skills</div> *@
     <h2 class="section-title">My Toolkit</h2>
 
     <!-- Filter Buttons -->
@@ -120,10 +113,6 @@
             <div class="skill-item" data-category="@skill.Category">
                 <div class="skill-top">
                     <span class="skill-name">@skill.Name</span>
-                    <span class="skill-pct">@skill.Level%</span>
-                </div>
-                <div class="skill-track">
-                    <div class="skill-fill" data-level="@skill.Level" style="width:0%"></div>
                 </div>
             </div>
         }
@@ -131,35 +120,55 @@
 </section>
 
 <!-- ══ PROJECTS ══════════════════════════════════════════════════════════════ -->
-<section id="projects" class="projects section reveal">
-    <div class="section-label">03 // Projects</div>
-    <h2 class="section-title">What I've Built</h2>
-    <div class="projects-grid">
-        @foreach (var project in Model.Projects)
-        {
-            <div class="project-card reveal" style="--card-accent: @project.AccentColor">
-                <div class="card-top-bar" style="background: @project.AccentColor"></div>
-                <div class="card-body">
-                    <h3 class="card-title">@project.Title</h3>
-                    <p class="card-desc">@project.Description</p>
-                    <div class="card-tags">
-                        @foreach (var tag in project.Tags)
-                        {
-                            <span class="card-tag" style="color:@project.AccentColor; border-color:@project.AccentColor">
-                                @tag
-                            </span>
-                        }
+    <section id="projects" class="projects section reveal">
+        <h2 class="section-title">What I've Built</h2>
+
+        <div class="projects-carousel-wrapper">
+            <div class="projects-grid" id="projectsGrid">
+                @foreach (var project in Model.Projects)
+                {
+                    <div class="project-card reveal" style="--card-accent: @project.AccentColor">
+                        <div class="card-top-bar" style="background: @project.AccentColor"></div>
+                        <div class="card-body">
+                            <h3 class="card-title">@project.Title</h3>
+                            <p class="card-desc">@project.Description</p>
+                            <div class="card-tags">
+                                @foreach (var tag in project.Tags)
+                                {
+                                    <span class="card-tag" style="color:@project.AccentColor; border-color:@project.AccentColor">
+                                        @tag
+                                    </span>
+                                }
+                            </div>
+                            @if (project.Id == 1)
+                            {
+                                <button id="openPOSBtn"
+                                        class="card-link"
+                                        style="background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
+                                    View Project <span>→</span>
+                                </button>
+                            }
+                            else
+                            {
+                                <a href="@project.Link" class="card-link">View Project <span>→</span></a>
+                            }
+                        </div>
                     </div>
-                    <a href="@project.Link" class="card-link">View Project <span>→</span></a>
-                </div>
+                }
             </div>
-        }
-    </div>
-</section>
+
+            <!-- Carousel controls — hidden on desktop, visible on mobile -->
+            <div class="carousel-controls" id="carouselControls">
+                <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous project">&#8592;</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+                <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next project">&#8594;</button>
+            </div>
+        </div>
+    </section>
 
 <!-- ══ CONTACT ═══════════════════════════════════════════════════════════════ -->
 <section id="contact" class="contact section reveal">
-    <div class="section-label">04 // Contact</div>
+    @* <div class="section-label">Contact</div> *@
     <h2 class="section-title">Get In Touch</h2>
     <p class="contact-sub">Have a project in mind or just want to say hi? My inbox is always open.</p>
 
@@ -168,7 +177,9 @@
         <div class="contact-info">
             <div class="info-item">
                 <span class="info-icon">📍</span>
-                <div><strong>Location</strong><br />Philippines</div>
+                <div ><strong style="margin-left:10px;">Location</strong><br/>
+                        <div style="margin-left:10px;">Philippines</div>
+                  </div>
             </div>
             <div class="info-item">
                 <span class="info-icon">💼</span>
@@ -176,7 +187,11 @@
             </div>
             <div class="info-item">
                 <span class="info-icon">🚀</span>
-                <div><strong>GitHub</strong><br />github.com/jef</div>
+                    <div>
+                        <strong>GitHub</strong><br />
+                        <a href="https://github.com/jheffz14" style="color:white;">https://github.com/jheffz14</a></div>
+
+                    
             </div>
         </div>
 
@@ -207,3 +222,84 @@
         </form>
     </div>
 </section>
+
+    @{
+        var posProject = Model.Projects.FirstOrDefault(p => p.Id == 1);
+    }
+
+    @if (posProject != null && posProject.Slides.Any())
+    {
+        <div id="posModal">
+
+            <div class="pos-modal-box" style="max-width:1200px;">
+
+                <!-- Close -->
+                <button id="posCloseBtn" class="pos-close-btn">&#x2715;</button>
+
+                <!-- Header -->
+                <h2 class="pos-modal-title">@posProject.Title</h2>
+                <p class="pos-modal-desc">@posProject.Description</p>
+
+                <!-- Counter -->
+                <div class="pos-counter">
+                    <span id="posCounter">1</span> / @posProject.Slides.Count
+                </div>
+
+                <!-- Carousel -->
+                <div class="pos-track-wrapper">
+                    <div id="posSlides">
+                        @for (int i = 0; i < posProject.Slides.Count; i++)
+                        {
+                            var slide = posProject.Slides[i];
+                            <div class="pos-slide">
+
+                                <!-- Icon + Title -->
+                                <div class="pos-slide-header">
+                                    <span class="pos-slide-icon">@slide.Icon</span>
+                                    <h3 class="pos-slide-title">@slide.Title</h3>
+                                </div>
+
+                                <!-- Screenshot -->
+                                @if (!string.IsNullOrEmpty(slide.ImagePath))
+                                {
+                                    <img src="@slide.ImagePath"
+                                         alt="@slide.Title"
+                                         class="pos-slide-img" />
+                                }
+
+                                <!-- Caption -->
+                                <p class="pos-slide-caption">@slide.Caption</p>
+
+                                <!-- Tags -->
+                                <div class="pos-slide-tags">
+                                    @foreach (var tag in slide.Tags)
+                                    {
+                                        <span class="pos-slide-tag">@tag</span>
+                                    }
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="pos-nav">
+                    <button id="posPrevBtn" class="pos-nav-btn">&#8592; Prev</button>
+
+                    <div class="pos-dots">
+                        @for (int i = 0; i < posProject.Slides.Count; i++)
+                        {
+                            <span class="pos-dot @(i == 0 ? "active" : "")"
+                                  data-index="@i">
+                            </span>
+                        }
+                    </div>
+
+                    <button id="posNextBtn" class="pos-nav-btn">Next &#8594;</button>
+                </div>
+
+            </div>
+        </div>
+    }
+

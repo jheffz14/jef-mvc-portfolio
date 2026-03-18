@@ -259,10 +259,10 @@ body  {
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.2rem;
+    padding: 2px;
 }
 .skill-top  { display: flex; justify-content: space-between; margin-bottom: 0.7rem; font-size: 0.82rem; }
-.skill-name { color: var(--text); font-weight: 700; }
+.skill-name { color: var(--text); font-weight: 700; margin-top:10px;}
 .skill-pct  { color: var(--accent); }
 .skill-track { height: 5px; background: rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; }
 .skill-fill  { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 10px; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
@@ -339,3 +339,323 @@ body  {
     .nav-links.open { display: flex; }
     .hamburger      { display: flex; }
 }
+
+
+
+/* ── POS MODAL ──────────────────────────────────────────────────────────── */
+#posModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.pos-modal-box {
+    background: var(--bg2);
+    border: 1px solid rgba(255, 196, 77, 0.25);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2.5rem 2.5rem 2rem;
+    position: relative;
+    box-shadow: 0 8px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255,196,77,0.06);
+    font-family: var(--font-mono);
+    color: var(--text);
+}
+
+/* Close button */
+.pos-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+    .pos-close-btn:hover {
+        color: var(--text);
+    }
+
+/* Modal title */
+.pos-modal-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffc94d;
+    margin: 0 0 4px;
+}
+
+/* Modal subtitle/description */
+.pos-modal-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+}
+
+/* Slide counter */
+.pos-counter {
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.05em;
+}
+
+/* Carousel track wrapper */
+.pos-track-wrapper {
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+/* Sliding track */
+#posSlides {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Individual slide */
+.pos-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    background: var(--bg3);
+    padding: 1.8rem 2rem;
+}
+
+/* Slide icon + title row */
+.pos-slide-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.pos-slide-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.pos-slide-title {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffc94d;
+    margin: 0;
+}
+
+/* Screenshot image */
+.pos-slide-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: #080b14;
+    border: 1px solid var(--border);
+    display: block;
+}
+
+/* Slide description */
+.pos-slide-caption {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+}
+
+/* Slide tags */
+.pos-slide-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.pos-slide-tag {
+    font-size: 0.72rem;
+    padding: 3px 12px;
+    border-radius: 20px;
+    background: rgba(255, 196, 77, 0.08);
+    border: 1px solid rgba(255, 196, 77, 0.3);
+    color: #ffc94d;
+}
+
+/* Navigation row */
+.pos-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+/* Prev / Next buttons */
+.pos-nav-btn {
+    background: #ffc94d;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #000;
+    transition: background 0.2s, transform 0.2s;
+}
+
+    .pos-nav-btn:hover {
+        background: #ffd97a;
+        transform: translateY(-1px);
+    }
+
+/* Dot indicators */
+.pos-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.pos-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #444;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.3s, transform 0.2s;
+}
+
+    .pos-dot:hover {
+        transform: scale(1.3);
+    }
+
+    .pos-dot.active {
+        background: #ffc94d;
+    }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pos-modal-box {
+        padding: 1.5rem 1.2rem 1.2rem;
+    }
+
+    .pos-slide {
+        padding: 1.2rem;
+    }
+
+    .pos-slide-img {
+        max-height: 220px;
+    }
+
+    .pos-nav-btn {
+        padding: 8px 14px;
+        font-size: 0.78rem;
+    }
+}
+
+
+/* Carousel wrapper for projects section*/
+.projects-carousel-wrapper {
+    position: relative;
+}
+
+/* Hide controls on desktop */
+.carousel-controls {
+    display: none;
+}
+
+/* ── Mobile only (≤768px) ── */
+@media (max-width: 768px) {
+
+    /* Convert grid to horizontal scroll track */
+    .projects-grid {
+        display: flex !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 1rem;
+        padding-bottom: 0.5rem;
+        scroll-behavior: smooth;
+    }
+
+        .projects-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Each card = one full slide, peek of next card visible */
+        .projects-grid .project-card {
+            flex: 0 0 85%;
+            max-width: 85%;
+            scroll-snap-align: start;
+        }
+
+    /* Show carousel controls */
+    .carousel-controls {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.25rem;
+    }
+}
+
+/* Prev / Next buttons */
+.carousel-btn {
+    background: transparent;
+    border: 2px solid currentColor;
+    color: inherit;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    opacity: 0.7;
+}
+
+    .carousel-btn:hover {
+        opacity: 1;
+    }
+
+    .carousel-btn:disabled {
+        opacity: 0.25;
+        cursor: default;
+    }
+
+/* Dot indicators */
+.carousel-dots {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.3;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+    .carousel-dot.active {
+        opacity: 1;
+        transform: scale(1.3);
+    }

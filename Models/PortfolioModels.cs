@@ -17,7 +17,22 @@ namespace JefPortfolio.Models
         public List<string> Tags { get; set; } = new();
         public string AccentColor { get; set; } = "#00f5c4";
         public string Link { get; set; } = "#";
+
+        // ✅ ADD THIS — list of screenshot paths for the carousel
+        public List<POSSlide> Slides { get; set; } = new();
     }
+
+    // ✅ ADD THIS NEW CLASS below Project
+    public class POSSlide
+    {
+        public string Icon { get; set; } = "";         // emoji icon
+        public string Title { get; set; } = "";        // utility name
+        public string Caption { get; set; } = "";      // description
+        public List<string> Tags { get; set; } = new(); // tech tags
+        public string ImagePath { get; set; } = "";   // ✅ ADD THIS LINE
+    }
+
+
 
     // Represents a contact form submission
     public class ContactForm
@@ -34,5 +49,10 @@ namespace JefPortfolio.Models
         public List<Project> Projects { get; set; } = new();
         public ContactForm ContactForm { get; set; } = new();
         public bool MessageSent { get; set; } = false;
+
     }
+
+
+
+
 }
