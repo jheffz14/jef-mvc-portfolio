@@ -16,37 +16,39 @@ namespace JefPortfolio.Services
 
         public async Task SendContactEmailAsync(string senderName, string senderEmail, string message)
         {
-            var apiKey = _config["EmailSettings:SendGridApiKey"] ?? "";
-            var receiverEmail = _config["EmailSettings:ReceiverEmail"] ?? "";
+            // Try multiple ways to read the API key
+            var apiKey = Environment.GetEnvironmentVariable("EmailSettings__SendGridApiKey")
+                      ?? _config["EmailSettings:SendGridApiKey"]
+                      ?? "";
 
-            // ✅ Add this line — shows in Railway logs
-            Console.WriteLine($"API Key starts with: {apiKey.Substring(0, Math.Min(10, apiKey.Length))}");
-            Console.WriteLine($"Receiver: {receiverEmail}");
+            var receiverEmail = Environment.GetEnvironmentVariable("EmailSettings__ReceiverEmail")
+                             ?? _config["EmailSettings:ReceiverEmail"]
+                             ?? "";
 
+            Console.WriteLine($"API Key found: {!string.IsNullOrEmpty(apiKey)}");
+            Console.WriteLine($"API Key length: {apiKey.Length}");
+
+            // Clean the key — remove any hidden characters
+            apiKey = apiKey.Trim().Replace("\n", "").Replace("\r", "").Replace(" ", "");
 
             var client = new SendGridClient(apiKey);
-
             var from = new EmailAddress("johnspeak153@gmail.com", "Portfolio Contact");
             var to = new EmailAddress(receiverEmail, "Jef");
             var subject = $"New Portfolio Message from {senderName}";
             var body = $@"
-                <h2 style='color:#00c49f'>New message from your portfolio!</h2>
-                <p><strong>From:</strong> {senderName}</p>
-                <p><strong>Their Email:</strong> {senderEmail}</p>
-                <p><strong>Message:</strong></p>
-                <p>{message}</p>
-                <hr/>
-                <p>Click Reply to respond directly to {senderName}.</p>
-            ";
+        <h2 style='color:#00c49f'>New message from your portfolio!</h2>
+        <p><strong>From:</strong> {senderName}</p>
+        <p><strong>Their Email:</strong> {senderEmail}</p>
+        <p><strong>Message:</strong></p>
+        <p>{message}</p>
+        <hr/>
+        <p>Click Reply to respond directly to {senderName}.</p>
+    ";
 
             var msg = MailHelper.CreateSingleEmail(from, to, subject, "", body);
-
-            // Reply goes directly to the viewer
             msg.SetReplyTo(new EmailAddress(senderEmail, senderName));
 
             var response = await client.SendEmailAsync(msg);
-
-            // Log the result
             Console.WriteLine($"SendGrid Status: {response.StatusCode}");
         }
     }
