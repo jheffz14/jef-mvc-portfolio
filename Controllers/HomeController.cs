@@ -35,25 +35,25 @@ namespace JefPortfolio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendMessage(ContactForm form)
         {
-            // If form has errors, go back to page and show errors
+            var vm = new PortfolioViewModel
+            {
+                Skills = Skills.GetSkills(),
+                Projects = ProjectsCreated.GetProjects(),
+                ContactForm = form,
+                MessageSent = false
+            };
+
             if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                // Show what errors exist
+                foreach (var error in ModelState.Values
+                    .SelectMany(v => v.Errors))
                 {
                     Console.WriteLine($"Validation Error: {error.ErrorMessage}");
                 }
-
-                var vmError = new PortfolioViewModel
-                {
-                    Skills = Skills.GetSkills(),
-                    Projects = ProjectsCreated.GetProjects(),
-                    ContactForm = form,  // keep what user typed
-                    MessageSent = false
-                };
-                return View("Index", vmError);
+                return View("Index", vm);
             }
 
-            // Try sending the email
             try
             {
                 await _emailService.SendContactEmailAsync(
@@ -61,17 +61,18 @@ namespace JefPortfolio.Controllers
                     form.Email,
                     form.Message
                 );
-                Console.WriteLine("Email sent successfully!");
+                vm.MessageSent = true;
+                vm.ContactForm = new ContactForm();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"EMAIL ERROR: {ex.Message}");
+                ModelState.AddModelError("", $"Failed to send: {ex.Message}");
             }
 
-            // ✅ Redirect to contact section after sending
-            return Redirect("/#contact");
+            return View("/#contact");
         }
-
+       
 
     }
 }
