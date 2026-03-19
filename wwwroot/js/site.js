@@ -253,14 +253,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// After page loads, if message was sent, scroll to contact section
-window.addEventListener('load', function () {
-    const successMsg = document.querySelector('.form-success');
-    if (successMsg) {
-        successMsg.scrollIntoView({ behavior: 'smooth' });
-    }
-});
-
 // Auto hide success message after 5 seconds
 const successMsg = document.querySelector('.form-success');
 if (successMsg) {
@@ -269,4 +261,27 @@ if (successMsg) {
         successMsg.style.opacity = '0';
         setTimeout(() => successMsg.style.display = 'none', 1000);
     }, 5000);
+}
+
+
+//form validation 
+function validateForm() {
+    const name = document.querySelector('input[name="Name"]').value.trim();
+    const email = document.querySelector('input[name="Email"]').value.trim();
+    const message = document.querySelector('textarea[name="Message"]').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!name) {
+        alert("Please enter your name.");
+        return false;
+    }
+    if (!email || !emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return false;
+    }
+    if (!message || message.length < 10) {
+        alert("Please enter a message of at least 10 characters.");
+        return false;
+    }
+    return true;
 }

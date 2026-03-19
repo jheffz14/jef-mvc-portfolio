@@ -35,25 +35,25 @@ namespace JefPortfolio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendMessage(ContactForm form)
         {
-            var vm = new PortfolioViewModel
-            {
-                Skills = Skills.GetSkills(),
-                Projects = ProjectsCreated.GetProjects(),
-                ContactForm = form,
-                MessageSent = false
-            };
-
+            // If form has errors, go back to page and show errors
             if (!ModelState.IsValid)
             {
-                // Show what errors exist
-                foreach (var error in ModelState.Values
-                    .SelectMany(v => v.Errors))
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
                     Console.WriteLine($"Validation Error: {error.ErrorMessage}");
                 }
-                return View("Index", vm);
+
+                var vmError = new PortfolioViewModel
+                {
+                    Skills = Skills.GetSkills(),
+                    Projects = ProjectsCreated.GetProjects(),
+                    ContactForm = form,  // keep what user typed
+                    MessageSent = false
+                };
+                return View("Index", vmError);
             }
 
+            // Try sending the email
             try
             {
                 await _emailService.SendContactEmailAsync(
@@ -61,18 +61,17 @@ namespace JefPortfolio.Controllers
                     form.Email,
                     form.Message
                 );
-                vm.MessageSent = true;
-                vm.ContactForm = new ContactForm();
+                Console.WriteLine("Email sent successfully!");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"EMAIL ERROR: {ex.Message}");
-                ModelState.AddModelError("", $"Failed to send: {ex.Message}");
             }
 
-            return View("Index", vm);
+            // ✅ Redirect to contact section after sending
+            return Redirect("/#contact");
         }
-       
+
 
     }
 }
