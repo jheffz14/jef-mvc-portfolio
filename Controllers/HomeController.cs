@@ -70,7 +70,7 @@ namespace JefPortfolio.Controllers
                 ModelState.AddModelError("", $"Failed to send: {ex.Message}");
             }
 
-            return View("/#contact");
+            return View("Index", vm);
         }
        
 

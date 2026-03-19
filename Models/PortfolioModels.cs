@@ -43,14 +43,11 @@ namespace JefPortfolio.Models
         public string Name { get; set; } = "";
 
         [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
-        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-            ErrorMessage = "Please enter a valid email address")]
-        public string Message { get; set; } = "";
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = "";
 
         [Required(ErrorMessage = "Message is required")]
-        [MinLength(10, ErrorMessage = "Message must be at least 10 characters")]
-        public string Email { get; set; } = "";
+        public string Message { get; set; } = "";
     }
 
     // The main ViewModel — combines everything for the single-page portfolio
