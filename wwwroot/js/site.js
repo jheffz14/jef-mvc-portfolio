@@ -270,3 +270,49 @@ if (successMsg) {
         setTimeout(() => successMsg.style.display = 'none', 1000);
     }, 5000);
 }
+
+
+
+//ajax function for contact form submission
+document.getElementById("contactForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const form = this;
+    const formData = new FormData(form);
+
+    const response = await fetch(form.action, {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+
+    // Remove old messages
+    document.querySelectorAll(".form-msg").forEach(e => e.remove());
+
+    if (result.success) {
+        const msg = document.createElement("div");
+        msg.className = "form-success form-msg";
+        msg.innerText = "✅ Message sent! I'll get back to you soon.";
+        form.prepend(msg);
+
+        form.reset(); // clear fields
+        // ✅ AUTO HIDE (move here)
+        setTimeout(() => {
+            msg.style.transition = 'opacity 1s ease';
+            msg.style.opacity = '0';
+            setTimeout(() => msg.remove(), 1000);
+        }, 5000);
+    } else {
+        const msg = document.createElement("div");
+        msg.className = "form-error form-msg";
+
+        if (result.errors) {
+            msg.innerHTML = result.errors.join("<br>");
+        } else {
+            msg.innerText = result.error || "Something went wrong.";
+        }
+
+        form.prepend(msg);
+    }
+});

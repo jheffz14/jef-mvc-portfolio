@@ -20,6 +20,8 @@ namespace JefPortfolio.Controllers
         // ── GET: / or /Home/Index ─────────────────────────────────────────
         public IActionResult Index()
         {
+            ViewBag.SuccessMsg = TempData["Success"];
+            TempData.Remove("Success");
             var vm = new PortfolioViewModel
             {
                 Skills = Skills.GetSkills(),
@@ -29,29 +31,17 @@ namespace JefPortfolio.Controllers
             return View(vm);
         }
 
-        // ── POST: /Home/SendMessage ───────────────────────────────────────
-        // Handles the contact form submission
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SendMessage(ContactForm form)
         {
-            var vm = new PortfolioViewModel
-            {
-                Skills = Skills.GetSkills(),
-                Projects = ProjectsCreated.GetProjects(),
-                ContactForm = form,
-                MessageSent = false
-            };
-
             if (!ModelState.IsValid)
             {
-                // Show what errors exist
-                foreach (var error in ModelState.Values
-                    .SelectMany(v => v.Errors))
-                {
-                    Console.WriteLine($"Validation Error: {error.ErrorMessage}");
-                }
-                return View("Index", vm);
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+
+                return Json(new { success = false, errors });
             }
 
             try
@@ -61,18 +51,58 @@ namespace JefPortfolio.Controllers
                     form.Email,
                     form.Message
                 );
-                vm.MessageSent = true;
-                vm.ContactForm = new ContactForm();
+
+                return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"EMAIL ERROR: {ex.Message}");
-                ModelState.AddModelError("", $"Failed to send: {ex.Message}");
+                return Json(new { success = false, error = ex.Message });
             }
-
-            return View("Index", vm);
         }
-       
+        // ── POST: /Home/SendMessage ───────────────────────────────────────
+        // Handles the contact form submission
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> SendMessage(ContactForm form)
+        //{
+        //    var vm = new PortfolioViewModel
+        //    {
+        //        Skills = Skills.GetSkills(),
+        //        Projects = ProjectsCreated.GetProjects(),
+        //        ContactForm = form,
+        //        MessageSent = false
+        //    };
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        // Show what errors exist
+        //        foreach (var error in ModelState.Values
+        //            .SelectMany(v => v.Errors))
+        //        {
+        //            Console.WriteLine($"Validation Error: {error.ErrorMessage}");
+        //        }
+        //        return View("Index", vm);
+        //    }
+
+        //    try
+        //    {
+        //        await _emailService.SendContactEmailAsync(
+        //            form.Name,
+        //            form.Email,
+        //            form.Message
+        //        );
+        //        vm.MessageSent = true;
+        //        vm.ContactForm = new ContactForm();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"EMAIL ERROR: {ex.Message}");
+        //        ModelState.AddModelError("", $"Failed to send: {ex.Message}");
+        //    }
+
+        //    return View("Index", vm);
+        //}
+
 
     }
 }

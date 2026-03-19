@@ -199,10 +199,10 @@
             <form asp-action="SendMessage" asp-controller="Home" method="post" class="contact-form" id="contactForm">
                 @Html.AntiForgeryToken()
 
-                @if (Model.MessageSent)
+             @*    @if (Model.MessageSent)
                 {
                     <div class="form-success">✅ Message sent! I'll get back to you soon.</div>
-                }
+                } *@
 
                 <div class="form-row">
                     <div>
@@ -302,4 +302,4 @@
             </div>
         </div>
     }
-
+   
