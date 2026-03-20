@@ -1,8 +1,12 @@
+using JefPortfolio.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MVC services here
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<JefPortfolio.Services.EmailService>();
+builder.Services.AddScoped<JefPortfolio.Services.ProjectService>();
+builder.Services.AddScoped<JefPortfolio.Services.SkillsService>();
 
 var app = builder.Build();
 

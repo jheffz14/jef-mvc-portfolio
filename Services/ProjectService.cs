@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 
-namespace JefPortfolio.Helpers
+namespace JefPortfolio.Services
 {
-    public class ProjectsCreated
+    public class ProjectService
     {
-        public static List<Project> GetProjects() => new()
+        public List<Project> GetProjects() => new()
         {
               new Project
             {
@@ -19,20 +19,20 @@ namespace JefPortfolio.Helpers
                 AccentColor = "#ffc94d",
                 Link = "#",
                 Slides = new()
-    {
+          {
         new POSSlide
         {
            Icon = "🧾",
-    Title = "Transaction Utilities",
-    ImagePath = "/img/trans_utils.png",   // ✅ path to wwwroot/images/
-    Caption = "POS transaction per store.",
-     Tags = new() { "ASP.NET MVC", "C#", "SQL Server" }
+           Title = "Transaction Utilities",
+           ImagePath = "/img/trans_utils.png",   // ✅ path to wwwroot/images/
+           Caption = "POS transaction per store.",
+           Tags = new() { "ASP.NET MVC", "C#", "SQL Server" }
         },
         new POSSlide
         {
             Icon = "📊",
             Title = "EPA Reports",
-             ImagePath = "/img/epa_reports.png",   // ✅ path to wwwroot/images/
+            ImagePath = "/img/epa_reports.png",   // ✅ path to wwwroot/images/
             Caption = "Reports regarding Bonus and Kanegosyo cards.",
              Tags = new() { "ASP.NET MVC", "C#", "SQL Server" }
         },
@@ -56,7 +56,7 @@ namespace JefPortfolio.Helpers
         {
             Icon = "🔐",
             Title = "Sale Validation",
-              ImagePath = "/img/sale_validation.png",   // ✅ path to wwwroot/images/
+            ImagePath = "/img/sale_validation.png",   // ✅ path to wwwroot/images/
             Caption = "Manage user credentials and profiles for POS Sale validation.",
               Tags = new() { "ASP.NET MVC", "C#", "SQL Server" }
         },
@@ -72,7 +72,7 @@ namespace JefPortfolio.Helpers
         {
             Icon = "💰",
             Title = "Cashier transaction Viewer",
-              ImagePath = "/img/cashier_trans.png",   // ✅ path to wwwroot/images/
+            ImagePath = "/img/cashier_trans.png",   // ✅ path to wwwroot/images/
             Caption = "View and monitor cashier transaction history by payment type.",
             Tags = new() { "ASP.NET MVC", "SQL Server" }
         }
@@ -98,9 +98,9 @@ namespace JefPortfolio.Helpers
                 Tags = new() { "Batch File" },
                 AccentColor = "#ffc94d",
                 Link = "https://github.com/jheffz14/Printer-Repair-tool"
-                 
+
             }
-            
+
         };
     }
 }

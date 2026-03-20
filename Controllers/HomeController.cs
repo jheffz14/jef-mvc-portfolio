@@ -9,11 +9,16 @@ namespace JefPortfolio.Controllers
     public class HomeController : Controller
     {
         private readonly EmailService _emailService;
-   
+        private readonly ProjectService _projectService;
+        private readonly SkillsService _skillsService;
 
-        public HomeController(EmailService emailService)
+        public HomeController(EmailService emailService,
+                              ProjectService projectService,
+                             SkillsService skillsService)
         {
             _emailService = emailService;
+            _projectService = projectService;
+            _skillsService = skillsService;
         
         }
 
@@ -24,8 +29,10 @@ namespace JefPortfolio.Controllers
             TempData.Remove("Success");
             var vm = new PortfolioViewModel
             {
-                Skills = Skills.GetSkills(),
-                Projects = ProjectsCreated.GetProjects(),
+                //Skills = Skills.GetSkills(),
+                Skills = _skillsService.GetSkills(),
+                //Projects = ProjectsCreated.GetProjects(),
+                Projects = _projectService.GetProjects(),
                 ContactForm = new ContactForm()
             };
             return View(vm);
