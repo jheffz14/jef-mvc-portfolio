@@ -8,7 +8,7 @@ namespace JefPortfolio.Services
     {
         public List<Skill> GetSkills() => new()
         {
-            new Skill { Name = "HTML / CSS",Category = "Frontend" },
+            new Skill { Name = "HTML / CSS", Category = "Frontend" },
             new Skill { Name = "JavaScript",Category = "Frontend" },
             new Skill { Name = "ASP.NET MVC",Category = "Backend"  },
             new Skill { Name = "C#", Category = "Backend"  },
