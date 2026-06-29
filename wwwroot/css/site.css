@@ -543,6 +543,211 @@ body  {
         background: #ffc94d;
     }
 
+
+/* ── Print MODAL ──────────────────────────────────────────────────────────── */
+#printModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.print-modal-box {
+    background: var(--bg2);
+    border: 1px solid rgba(255, 196, 77, 0.25);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2.5rem 2.5rem 2rem;
+    position: relative;
+    box-shadow: 0 8px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(255,196,77,0.06);
+    font-family: var(--font-mono);
+    color: var(--text);
+}
+
+/* Close button */
+.print-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+    .pos-close-btn:hover {
+        color: var(--text);
+    }
+
+/* Modal title */
+.print-modal-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffc94d;
+    margin: 0 0 4px;
+}
+
+/* Modal subtitle/description */
+.print-modal-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+}
+
+/* Slide counter */
+.print-counter {
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.05em;
+}
+
+/* Carousel track wrapper */
+.print-track-wrapper {
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+/* Sliding track */
+#printSlides {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Individual slide */
+.print-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    background: var(--bg3);
+    padding: 1.8rem 2rem;
+}
+
+/* Slide icon + title row */
+.print-slide-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.print-slide-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.print-slide-title {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffc94d;
+    margin: 0;
+}
+
+/* Screenshot image */
+.print-slide-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: #080b14;
+    border: 1px solid var(--border);
+    display: block;
+}
+
+/* Slide description */
+.print-slide-caption {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+}
+
+/* Slide tags */
+.print-slide-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.print-slide-tag {
+    font-size: 0.72rem;
+    padding: 3px 12px;
+    border-radius: 20px;
+    background: rgba(255, 196, 77, 0.08);
+    border: 1px solid rgba(255, 196, 77, 0.3);
+    color: #ffc94d;
+}
+
+/* Navigation row */
+.print-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+/* Prev / Next buttons */
+.print-nav-btn {
+    background: #ffc94d;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 22px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #000;
+    transition: background 0.2s, transform 0.2s;
+}
+
+    .print-nav-btn:hover {
+        background: #ffd97a;
+        transform: translateY(-1px);
+    }
+
+/* Dot indicators */
+.print-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.print-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #444;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.3s, transform 0.2s;
+}
+
+    .print-dot:hover {
+        transform: scale(1.3);
+    }
+
+    .print-dot.active {
+        background: #ffc94d;
+    }
+
+
+
+
 /* Responsive */
 @media (max-width: 768px) {
     .pos-modal-box {

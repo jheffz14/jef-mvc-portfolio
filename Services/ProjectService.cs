@@ -99,6 +99,27 @@ namespace JefPortfolio.Services
                 AccentColor = "#ffc94d",
                 Link = "https://github.com/jheffz14/Printer-Repair-tool"
 
+            },
+             new Project
+            {
+                Id = 4,
+                Title = "Printer Monitoring",
+                Description = @"A Python web application for viewing of total printed pages in different offices.",
+                Tags = new() { "Python" },
+                AccentColor = "#ffc94d",
+                Link = "#",
+                PrintSlides = new()
+                {
+                    new PrintSlide
+                    {
+                        Icon = "🖨️",
+                        Title = "Printer Monitoring",
+                        ImagePath = "/img/printmonitor.png",  
+                        Caption = "Monitor printer activity and usage across different offices.",
+                        Tags = new() { "Python", "Flask" }
+                    }
+                }
+
             }
 
         };

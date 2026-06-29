@@ -22,6 +22,8 @@ namespace JefPortfolio.Models
 
         // ✅ ADD THIS — list of screenshot paths for the carousel
         public List<POSSlide> Slides { get; set; } = new();
+
+        public List<PrintSlide> PrintSlides { get; set; } = new();
     }
 
     // ✅ ADD THIS NEW CLASS below Project
@@ -33,6 +35,18 @@ namespace JefPortfolio.Models
         public List<string> Tags { get; set; } = new(); // tech tags
         public string ImagePath { get; set; } = "";   // ✅ ADD THIS LINE
     }
+
+
+    // ✅ ADD THIS NEW CLASS below Print
+    public class PrintSlide
+    {
+        public string Icon { get; set; } = "";         // emoji icon
+        public string Title { get; set; } = "";        // utility name
+        public string Caption { get; set; } = "";      // description
+        public List<string> Tags { get; set; } = new(); // tech tags
+        public string ImagePath { get; set; } = "";   // ✅ ADD THIS LINE
+    }
+
 
 
 

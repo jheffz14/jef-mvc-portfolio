@@ -82,7 +82,7 @@ sections.forEach(s => navObserver.observe(s));
 
 
 // ── POS MODAL ─────────────────────────────────────────────────────────────
-let posCurrentSlide = 0;
+let poCurrentSlide = 0;
 let posTotalSlides = 0;
 
 function openPOSModal() {
@@ -94,6 +94,8 @@ function openPOSModal() {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
+
+
 
 function closePOSModal() {
     const modal = document.getElementById('posModal');
@@ -151,6 +153,81 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+// ── Print MODAL ─────────────────────────────────────────────────────────────
+let printCurrentSlide = 0;
+let printTotalSlides = 0;
+
+function openPrintModal() {
+    const modal = document.getElementById('printModal');
+    if (!modal) return;
+    printTotalSlides = document.querySelectorAll('#printSlides > div').length;
+    printCurrentSlide = 0;
+    updatePrintCarousel();
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+
+
+function closePrintModal() {
+    const modal = document.getElementById('printModal');
+    if (!modal) return;
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function printSlide(direction) {
+    printCurrentSlide = (printCurrentSlide + direction + printTotalSlides) % printTotalSlides;
+    updatePrintCarousel();
+}
+
+function printGoTo(index) {
+    printCurrentSlide = index;
+    updatePrintCarousel();
+}
+
+function updatePrintCarousel() {
+    const track = document.getElementById('printSlides');
+    const counter = document.getElementById('printCounter');
+    if (!track || !counter) return;
+
+    track.style.transform = `translateX(-${printCurrentSlide * 100}%)`;
+    counter.textContent = printCurrentSlide + 1;
+
+    // ✅ use .active class instead of inline background style
+    document.querySelectorAll('.print-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === printCurrentSlide);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const openBtn = document.getElementById('openPrintBtn');
+    const prevBtn = document.getElementById('printPrevBtn');
+    const nextBtn = document.getElementById('printNextBtn');
+    const closeBtn = document.getElementById('printCloseBtn');
+    const modal = document.getElementById('printModal');
+
+    if (openBtn) openBtn.addEventListener('click', openPrintModal);
+    if (prevBtn) prevBtn.addEventListener('click', () => printSlide(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => printSlide(1));
+    if (closeBtn) closeBtn.addEventListener('click', closePrintModal);
+
+    if (modal) {
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) closePrintModal();
+        });
+    }
+
+    document.querySelectorAll('.print-dot').forEach(dot => {
+        dot.addEventListener('click', function () {
+            printGoTo(parseInt(this.dataset.index));
+        });
+    });
+});
+
 
 
 

@@ -147,6 +147,13 @@
                                         style="background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
                                     View Project <span>→</span>
                                 </button>
+                            }else if (project.Id == 4)
+                            {
+                            <button id="openPrintBtn"
+                                    class="card-link"
+                                    style="background:none; border:none; padding:0; cursor:pointer; font-family:inherit;">
+                                View Project <span>→</span>
+                            </button>
                             }
                             else
                             {
@@ -225,81 +232,136 @@
 
     @{
         var posProject = Model.Projects.FirstOrDefault(p => p.Id == 1);
+        var printProject = Model.Projects.FirstOrDefault(p => p.Id == 4);
     }
 
-    @if (posProject != null && posProject.Slides.Any())
-    {
-        <div id="posModal">
+@if (posProject != null && posProject.Slides.Any())
+{
+    //modal for pos project
+    <div id="posModal">
 
-            <div class="pos-modal-box" style="max-width:1200px;">
+        <div class="pos-modal-box" style="max-width:1200px;">
 
-                <!-- Close -->
-                <button id="posCloseBtn" class="pos-close-btn">&#x2715;</button>
+            <!-- Close -->
+            <button id="posCloseBtn" class="pos-close-btn">&#x2715;</button>
 
-                <!-- Header -->
-                <h2 class="pos-modal-title">@posProject.Title</h2>
-                <p class="pos-modal-desc">@posProject.Description</p>
+            <!-- Header -->
+            <h2 class="pos-modal-title">@posProject.Title</h2>
+            <p class="pos-modal-desc">@posProject.Description</p>
 
-                <!-- Counter -->
-                <div class="pos-counter">
-                    <span id="posCounter">1</span> / @posProject.Slides.Count
-                </div>
+            <!-- Counter -->
+            <div class="pos-counter">
+                <span id="posCounter">1</span> / @posProject.Slides.Count
+            </div>
 
-                <!-- Carousel -->
-                <div class="pos-track-wrapper">
-                    <div id="posSlides">
-                        @for (int i = 0; i < posProject.Slides.Count; i++)
-                        {
-                            var slide = posProject.Slides[i];
-                            <div class="pos-slide">
+            <!-- Carousel -->
+            <div class="pos-track-wrapper">
+                <div id="posSlides">
+                    @for (int i = 0; i < posProject.Slides.Count; i++)
+                    {
+                        var slide = posProject.Slides[i];
+                        <div class="pos-slide">
 
-                                <!-- Icon + Title -->
-                                <div class="pos-slide-header">
-                                    <span class="pos-slide-icon">@slide.Icon</span>
-                                    <h3 class="pos-slide-title">@slide.Title</h3>
-                                </div>
-
-                                <!-- Screenshot -->
-                                @if (!string.IsNullOrEmpty(slide.ImagePath))
-                                {
-                                    <img src="@slide.ImagePath"
-                                         alt="@slide.Title"
-                                         class="pos-slide-img" />
-                                }
-
-                                <!-- Caption -->
-                                <p class="pos-slide-caption">@slide.Caption</p>
-
-                                <!-- Tags -->
-                                <div class="pos-slide-tags">
-                                    @foreach (var tag in slide.Tags)
-                                    {
-                                        <span class="pos-slide-tag">@tag</span>
-                                    }
-                                </div>
-
+                            <!-- Icon + Title -->
+                            <div class="pos-slide-header">
+                                <span class="pos-slide-icon">@slide.Icon</span>
+                                <h3 class="pos-slide-title">@slide.Title</h3>
                             </div>
-                        }
-                    </div>
+
+                            <!-- Screenshot -->
+                            @if (!string.IsNullOrEmpty(slide.ImagePath))
+                            {
+                                <img src="@slide.ImagePath"
+                                alt="@slide.Title"
+                                class="pos-slide-img" />
+                            }
+
+                            <!-- Caption -->
+                            <p class="pos-slide-caption">@slide.Caption</p>
+
+                            <!-- Tags -->
+                            <div class="pos-slide-tags">
+                                @foreach (var tag in slide.Tags)
+                                {
+                                    <span class="pos-slide-tag">@tag</span>
+                                }
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="pos-nav">
+                <button id="posPrevBtn" class="pos-nav-btn">&#8592; Prev</button>
+
+                <div class="pos-dots">
+                    @for (int i = 0; i < posProject.Slides.Count; i++)
+                    {
+                        <span class="pos-dot @(i == 0 ? "active" : "")"
+                        data-index="@i">
+                        </span>
+                    }
                 </div>
 
-                <!-- Navigation -->
-                <div class="pos-nav">
-                    <button id="posPrevBtn" class="pos-nav-btn">&#8592; Prev</button>
+                <button id="posNextBtn" class="pos-nav-btn">Next &#8594;</button>
+            </div>
 
-                    <div class="pos-dots">
-                        @for (int i = 0; i < posProject.Slides.Count; i++)
-                        {
-                            <span class="pos-dot @(i == 0 ? "active" : "")"
-                                  data-index="@i">
-                            </span>
-                        }
-                    </div>
+        </div>
+    </div>
+    //end for pos project modal
+}
 
-                    <button id="posNextBtn" class="pos-nav-btn">Next &#8594;</button>
+@* for Printer Modal *@
+@if (printProject != null && printProject.PrintSlides.Any())
+{
+    <div id="printModal">
+        <div class="print-modal-box" style="max-width:1200px;">
+            <button id="printCloseBtn" class="print-close-btn">&#x2715;</button>
+            <h2 class="print-modal-title">@printProject.Title</h2>
+            <p class="print-modal-desc">@printProject.Description</p>
+
+            <div class="print-counter">
+                <span id="printCounter">1</span> / @printProject.PrintSlides.Count
+            </div>
+
+            <div class="print-track-wrapper">
+                <div id="printSlides">
+                    @for (int i = 0; i < printProject.PrintSlides.Count; i++)
+                    {
+                        var slide = printProject.PrintSlides[i];
+                        <div class="print-slide">
+                            <div class="print-slide-header">
+                                <span class="print-slide-icon">@slide.Icon</span>
+                                <h3 class="print-slide-title">@slide.Title</h3>
+                            </div>
+                            @if (!string.IsNullOrEmpty(slide.ImagePath))
+                            {
+                                <img src="@slide.ImagePath" alt="@slide.Title" class="print-slide-img" />
+                            }
+                            <p class="print-slide-caption">@slide.Caption</p>
+                            <div class="print-slide-tags">
+                                @foreach (var tag in slide.Tags)
+                                {
+                                    <span class="print-slide-tag">@tag</span>
+                                }
+                            </div>
+                        </div>
+                    }
                 </div>
+            </div>
 
+            <div class="print-nav">
+                <button id="printPrevBtn" class="print-nav-btn">&#8592; Prev</button>
+                <div class="print-dots">
+                    @for (int i = 0; i < printProject.PrintSlides.Count; i++)
+                    {
+                        <span class="print-dot @(i == 0 ? "active" : "")" data-index="@i"></span>
+                    }
+                </div>
+                <button id="printNextBtn" class="print-nav-btn">Next &#8594;</button>
             </div>
         </div>
+    </div>
     }
-   
