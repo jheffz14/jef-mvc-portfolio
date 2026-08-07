@@ -12,6 +12,7 @@ namespace JefPortfolio.Services
             new Skill { Name = "JavaScript",Category = "Frontend" },
             new Skill { Name = "ASP.NET MVC",Category = "Backend"  },
             new Skill { Name = "C#", Category = "Backend"  },
+            new Skill { Name = "Python", Category = "Backend"  },
             new Skill { Name = "GitHub", Category = "Tools"    },
             new Skill { Name = "SQL",  Category = "Backend"  },
             new Skill { Name = "Bootstrap 5", Category = "Frontend" },
